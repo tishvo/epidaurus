@@ -7,6 +7,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { proximaRegular, proximaBold } from "../../lib/fonts";
 import { formatPercent } from "../../lib/helpers";
 import { type Trend, type Stats } from "@/lib/types";
+import { CardSkeleton } from "./Skeletons";
 
 function getTrendIcon(trend: Trend) {
   if (trend === "up") {
@@ -17,15 +18,21 @@ function getTrendIcon(trend: Trend) {
 
 export default function Stats() {
   const [stats, setStats] = useState<Stats[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     console.log("fetching stats data...");
     fetch("../api/stats").then((response) => {
       response.json().then((jsonResponse) => {
         setStats(jsonResponse.data);
+        setIsLoading(false);
       });
     });
   }, []);
+
+  if (isLoading) {
+    return <CardSkeleton/>
+  }
 
   return (
     <div className="flex justify-center flex-wrap">
