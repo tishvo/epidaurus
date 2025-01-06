@@ -16,6 +16,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { type TableData } from "@/lib/types";
 import { TableSkeleton } from "./Skeletons";
+import { TablePagination } from "./Pagination";
 
 function getProgressBarStyles(percent: number | undefined): string | undefined {
   if (!percent) return undefined;
@@ -49,7 +50,7 @@ export default function TableWithSearch() {
 
   const onSearchInput = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      console.log("Search is being executed; search term: ", e.target.value)
+      console.log("Search is being executed; search term: ", e.target.value);
       if (!e.target.value) {
         setFilteredData(tableData);
       }
@@ -80,7 +81,7 @@ export default function TableWithSearch() {
   return (
     <>
       <div className="flex justify-between mx-12 mb-5">
-        <div className="w-75">
+        <div className="w-[250px]">
           <Input
             className="bg-white"
             placeholder={`Search`}
@@ -139,6 +140,12 @@ export default function TableWithSearch() {
             ))}
           </TableBody>
         </Table>
+        <div className="text-lg mt-1 flex justify-between">
+          <div>{`Showing ${filteredData.length} of ${tableData.length} items`}</div>
+          <div>
+            <TablePagination />
+          </div>
+        </div>
       </div>
     </>
   );
